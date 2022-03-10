@@ -1,0 +1,3 @@
+﻿using CSharpInDepth;
+
+ConvertAll.Main();
