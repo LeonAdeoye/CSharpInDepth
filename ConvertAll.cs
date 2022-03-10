@@ -4,7 +4,6 @@
     {
         void DoNothing();
     }
-
     interface IDoSomething
     {
         void DoSomething();
@@ -35,7 +34,6 @@
             list.Add(second);
             return list;
         }
-
         // Type constraint added: T must be a value type.
         // The first constraint ensures comparisons (including NULL) using == and != operators are prohibited.
         public static List<T> MakeListFromValueType<T>(T first, T second) where T : struct
@@ -45,8 +43,6 @@
             list.Add(second);
             return list;
         }
-
-        // The 
         // The second constraint is constructor type constraint and it ensures the type argument used has a parameterless constructor that can be used to create an instance.
         // Constructor type constraints must be last constraint.
         public static List<T> MakeListFromSimpleClass<T>(T first, T second) where T : class, new()
@@ -56,7 +52,8 @@
             list.Add(second);
             return list;
         }
-
+        // The type argument is constrained to be a specific type and must implement two interfaces.
+        // The class must come before the interfaces in the constraint declaration.
         public static List<T> MakeListFromOnlySimpleClass<T>(T first, T second) where T : SimpleClass, IDoNothing, IDoSomething
         {
             List<T> list = new();
@@ -64,7 +61,6 @@
             list.Add(second);
             return list;
         }
-
         public static void Main()
         {
             List<int> integers = new();
@@ -76,7 +72,7 @@
             integers.Add(4);
 
             Converter<int, double> converter = TakeSqaureRoot;
-            doubles = integers.ConvertAll<double>(converter);
+            doubles = integers.ConvertAll<double>(converter); // The <double> method type argument can be omitted as the compiler can infer the type.
 
             foreach(double value in doubles)
             {
@@ -87,7 +83,7 @@
             // The below does not compile because the type argument of MakeListFromValueType method must be a reference type as declared in the type constraint above. 
             // List<int> list = MakeListFromReferenceType<int>(1,2);
 
-            List<int> listOfInts = MakeListFromValueType<int>(1, 2);
+            List<int> listOfInts = MakeListFromValueType(1, 2); // the <int> method type argument omitted here as it can be inferred.
             // The below does not compile because the type argument of MakeListFromValueType method must be a value type as declared in the type constraint above. 
             //List<String> list = MakeListFromValueType<string>("Horatio", "Harper");
 
