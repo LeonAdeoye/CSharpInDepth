@@ -6,5 +6,6 @@ class Program
     {
         ConvertAll.TestMain();
         NullableExamples.TestMain();
+        Lambda.TestMain();
     }
 }
