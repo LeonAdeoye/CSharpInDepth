@@ -61,7 +61,7 @@
             list.Add(second);
             return list;
         }
-        public static void Main()
+        public static void TestMain()
         {
             List<int> integers = new();
             List<double> doubles = new();

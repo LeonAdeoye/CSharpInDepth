@@ -1,3 +1,10 @@
 ﻿using CSharpInDepth;
 
-ConvertAll.Main();
+class Program
+{
+    public static void Main()
+    {
+        ConvertAll.TestMain();
+        NullableExamples.TestMain();
+    }
+}
