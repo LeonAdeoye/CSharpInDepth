@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace CSharpInDepth
+﻿namespace CSharpInDepth
 {
     public static class ExtensionMethod
     {
@@ -14,14 +7,23 @@ namespace CSharpInDepth
             return input.Split(new char[] { splitter }, StringSplitOptions.RemoveEmptyEntries).Length;
         }
 
+        // Optional Parameters
+        public static void OptionalParams(int x, int y = 0, DateTime? timeStamp = null, string child = "Horatio")
+        {
+            // Use of null coalescing operator to set default.
+            var realTimestamp = timeStamp ?? DateTime.Now;
+            Console.WriteLine($"Optional parameterization => x: {x}, timestamp:{realTimestamp}, child: {child}");
+        }
+
         // Extension methods are created in a static class.
         // It must have at least one parameter, this parameter must be prefixed with 'this', and it cannot have any modifiers like out or ref.
         // The first parameter is called the extended type of the method, and we say that the method extends the type.
         public static void TestMain()
         {
-            string family = "Leon Horatio Harper Saori";
+            var family = "Leon Horatio Harper Saori";
             Console.WriteLine($"The sentence: '{family}' has {family.WordCount(' ')} words");
 
+            OptionalParams(x: 5, child: "Harper");
 
             var words = from element in family.Split(' ')
                         select element;
@@ -31,13 +33,14 @@ namespace CSharpInDepth
                 Console.WriteLine(word);
             }
 
-            ArrayList list = new ArrayList { 1, "not a int", 2, 3 , 4, 5, 6};
+            var list = new List<object> { 1, "not a int", 2, 3 , 4, 5, 6};
             
             // Using multiple WHERE clauses results in multiple chained where calls - only elements that match all of the predicates are part of the resulting sequence.
             var result = from item in list.OfType<int>()
                          where (item % 2) == 0
                          where item > 2
-                         select item;
+                         let sqr = (item * item) // Introduces a new range variable.
+                         select new { Num = item, SqrOfNum = sqr }; // Anonymous type.
 
             foreach (var x in result)
             {
@@ -64,7 +67,6 @@ namespace CSharpInDepth
             {
                 Console.WriteLine(ice.Message);
             }
-
         }
     }
 }
