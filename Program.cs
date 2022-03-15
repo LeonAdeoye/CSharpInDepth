@@ -8,6 +8,6 @@ class Program
         NullableExamples.TestMain();
         Lambda.TestMain();
         ExpressionTree.TestMain();
-        ExtensionMethod.TestMain();
+        ExtensionMethod.TestMainAsync();
     }
 }

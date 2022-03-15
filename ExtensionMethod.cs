@@ -15,11 +15,27 @@
             Console.WriteLine($"Optional parameterization => x: {x}, timestamp:{realTimestamp}, child: {child}");
         }
 
+        private async static Task CatchMultipleExceptions()
+        {
+            try
+            {
+                Task task2 = Task.Run(() => { Console.WriteLine("Executing task 2"); });
+                Task task1 = Task.Run(() => { throw new ArgumentNullException("Message 1"); });
+                await Task.WhenAny(task1, task2);
+            }
+            catch (AggregateException ae)
+            {
+                Console.WriteLine(ae.ToString() + "inner exception count: " + ae.InnerExceptions.Count);
+            }
+        }
+
         // Extension methods are created in a static class.
         // It must have at least one parameter, this parameter must be prefixed with 'this', and it cannot have any modifiers like out or ref.
         // The first parameter is called the extended type of the method, and we say that the method extends the type.
-        public static void TestMain()
+        public static async Task TestMainAsync()
         {
+            await CatchMultipleExceptions();
+
             var family = "Leon Horatio Harper Saori";
             Console.WriteLine($"The sentence: '{family}' has {family.WordCount(' ')} words");
 
